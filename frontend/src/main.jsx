@@ -9,7 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen.jsx";
-
+import ProductScreen from "./screens/ProductScreen.jsx";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
 import App from "./App.jsx";
@@ -21,6 +21,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       {/* index = true - Only shows the HomeScreen - May show a big if there's an issue. */}
       <Route index={true} path="/" element={<HomeScreen />} />
+      {/* NOTE: No index={true} because it is not the homepage */}
+      <Route path="/product/:id" element={<ProductScreen />} />
     </Route>
   )
 );
