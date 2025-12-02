@@ -8,6 +8,8 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
+          {/* LinkContainer is from the react-router-bootstrap library - Works with react-router to link to new pages */}
+          {/* LinkContainer is necessary because you can not add Link component to encompass the bootstrap Navbar components */}
           <LinkContainer to="/">
             <Navbar.Brand>
               <img src={logo} alt="ProShop" />
