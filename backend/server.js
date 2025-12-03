@@ -3,6 +3,7 @@ import express from "express";
 import path from "node:path";
 import products from "./data/products.js";
 
+console.log("Hello World");
 const app = express();
 
 app.get("/", (req, res) => {
@@ -19,7 +20,5 @@ app.get("/api/products/:id", (req, res) => {
   console.log(product);
   res.json(product);
 });
-
-console.log("Hello World");
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
