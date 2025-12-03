@@ -1,9 +1,23 @@
 import { Row, Col } from "react-bootstrap";
-import products from "../products";
 import Product from "../components/Product";
-import React from "react";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+// useEffect to fetch data
+// useState bc products are a part of the state
+// future will be redux
 const HomeScreen = () => {
+  // empty state at first
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products");
+      console.log(typeof data);
+      setProducts(data);
+      console.log(data);
+    };
+    fetchProducts();
+    // dependency will only run once at the start of page load, so empty dependency array
+  }, []);
   return (
     <>
       <h1>

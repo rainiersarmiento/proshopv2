@@ -1,0 +1,31 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "A mock eCommerce Application built with MERN Stack",
+  "homepage": "https://github.com/rainiersarmiento/proshopv2#readme",
+  "bugs": {
+    "url": "https://github.com/rainiersarmiento/proshopv2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rainiersarmiento/proshopv2.git"
+  },
+  "license": "ISC",
+  "author": "Rainier Sarmiento",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node --watch --env-file=.env backend/server.js",
+    "client": "npm run dev --prefix frontend"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11"
+  }
+}

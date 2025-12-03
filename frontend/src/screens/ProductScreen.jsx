@@ -1,8 +1,11 @@
 import React from "react";
 // This is to get the params from the URL
 import { useParams } from "react-router-dom";
-import Products from "../products";
+import { useState, useEffect } from "react";
+// import Products from "../products";
 import { Link } from "react-router-dom";
+// import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Row,
   Col,
@@ -13,12 +16,26 @@ import {
   ListGroupItem,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
-import products from "../products";
+
 const ProductScreen = () => {
+  // Initialize product. product does not have prior data so [] is empty
+  const [product, setProduct] = useState([]);
+  // params are sent as object so destructure the data and product id is the variable for the urlparam from now on
+  const { id: productId } = useParams();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      // fetch data using axios
+      const { data } = await axios.get(`/api/products/${productId}`);
+      setProduct(data);
+    };
+    fetchProduct();
+    // productId is now part of the dependency array because if it changes, the data must be changed
+  }, [productId]);
+
   // IMPORTANT : Destructuring the urlparam and renaming it productId for
   // Syntax purposes
-  const { id: productId } = useParams();
-  const product = products.find((p) => p._id === productId);
+  // const product = products.find((p) => p._id === productId);
 
   return (
     <>
