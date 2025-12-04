@@ -2,23 +2,44 @@ const port = process.env.PORT || 8000;
 import express from "express";
 import path from "node:path";
 import products from "./data/products.js";
+import url from "node:url";
+import connectDB from "./config/db.js";
+import productsRouter from "./routes/productsRouter.js";
 
-console.log("Hello World");
+connectDB();
 const app = express();
 
-app.get("/", (req, res) => {
-  // res.send("API is running...");
-  res.status(200).json({ msg: "Hello World " });
-});
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
+// console.log(__filename);
+// console.log(import.meta.filename);
+// console.log(import.meta.dirname);
+// console.log(__dirname);
 
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  console.log(product);
-  res.json(product);
-});
+// Routes
+app.use("/api/products", productsRouter);
+
+// app.get("/", (req, res) => {
+//   // res.send("API is running...");
+//   res.status(200).json({ msg: "Hello World " });
+// });
+
+// app.get("/api/products", (req, res) => {
+//   res.status(200).json(products);
+// });
+
+// app.get("/api/products/:id", (req, res) => {
+//   const product = products.find((p) => p._id === req.params.id);
+//   console.log(product);
+//   res.status(200).json(product);
+// });
+
+/**
+ * GET
+ * POST
+ * PUT
+ * DELETE
+ */
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
