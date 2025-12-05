@@ -22,7 +22,10 @@
     "client": "npm run dev --prefix frontend"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "bcryptjs": "^3.0.3",
+    "colors": "^1.4.0",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.0"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
