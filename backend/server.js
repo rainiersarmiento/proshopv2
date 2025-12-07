@@ -4,7 +4,7 @@ import path from "node:path";
 import products from "./data/products.js";
 import url from "node:url";
 import connectDB from "./config/db.js";
-import productsRouter from "./routes/productsRouter.js";
+import productRoutes from "./routes/productRoutes.js";
 
 connectDB();
 const app = express();
@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 // console.log(__dirname);
 
 // Routes
-app.use("/api/products", productsRouter);
+app.use("/api/products", productRoutes);
 
 // app.get("/", (req, res) => {
 //   // res.send("API is running...");

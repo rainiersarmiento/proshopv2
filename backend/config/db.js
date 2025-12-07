@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+console.log(process.env.MONGO_URI);
 // Any methods called from mongoose model or mongoose are going to be a promise
 const connectDB = async () => {
   // async await + trycatch is the move
