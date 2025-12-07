@@ -20,6 +20,7 @@ router.get(
     // use ____.find({}) to get all the objects
     // IMPORTANT: use {} to get ALL the objects
     const products = await Product.find({});
+    //throw new Error("Some error");
     res.json(products);
   })
 );
@@ -34,8 +35,10 @@ router.get(
     const product = await Product.findById(req.params.id);
     if (product) {
       res.json(product);
+    } else {
+      res.status(404);
+      throw new Error("Resource not found");
     }
-    res.status(404).json({ message: "Product not found" });
   })
 );
 
