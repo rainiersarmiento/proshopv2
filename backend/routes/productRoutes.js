@@ -37,6 +37,7 @@ router.get(
       res.json(product);
     } else {
       res.status(404);
+      // This new Error uses the errorMiddleware function that we use.
       throw new Error("Resource not found");
     }
   })
