@@ -2,8 +2,8 @@ import express from "express";
 // import {} from "../controllers/productsControllers.js";
 // import products from "../data/products.js";
 const router = express.Router();
-import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
+import { getProducts, getProduct } from "../controllers/productControllers.js";
 /**
  * CREATE - POST
  * READ - GET
@@ -11,52 +11,33 @@ import Product from "../models/productModel.js";
  * DELETE - DELETE
  */
 
-// DESC :  GET ALL PRODUCTS
-// ROUTE : '/api/products/
-router.get(
-  "/",
-  asyncHandler(async (req, res) => {
-    console.log("Router called get products request.");
-    // use ____.find({}) to get all the objects
-    // IMPORTANT: use {} to get ALL the objects
-    const products = await Product.find({});
-    //throw new Error("Some error");
-    res.json(products);
-  })
-);
+// @DESC    :  GET ALL PRODUCTS
+// @ROUTE   : '/api/products/
+// @ACCESS  : Public
+router.route("/").get(getProducts);
 
 // DESC : GET A SINGLE PRODUCT
 // ROUTE : '/api/products/:id'
-router.get(
-  "/:id",
-  asyncHandler(async (req, res) => {
-    console.log(`GET request for product ${req.params.id} called.`);
-    //const product = Product.find(p => p._id === req.params.id);
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404);
-      // This new Error uses the errorMiddleware function that we use.
-      throw new Error("Resource not found");
-    }
-  })
-);
+// @ACCESS  : Public
+router.route("/:id").get(getProduct);
 
 // DESC :  CREATE A PRODUCTS
 // ROUTE : '/api/products/
-router.post("/", (req, res) =>
-  console.log("POST request called to /api/products")
-);
+// ACCESS : Public
+router.route("/").post((req, res) => {
+  console.log("POST request called to /api/products");
+});
 
 // DESC : ALTER A PRODUCT
 // ROUTE : '/api/products/:id'
+// ACCESS : Public
 router.put("/:id", (req, res) =>
   console.log(`PUT request called to api/products/${req.params.id}`)
 );
 
 // DESC : DELETE A PRODUCT
 // ROUTE : '/api/products/:id'
+// ACCESS : Public
 router.delete("/:id", (req, res) =>
   console.log(`DELETE request sent to \'/api/products/${req.params.id}\'`)
 );
