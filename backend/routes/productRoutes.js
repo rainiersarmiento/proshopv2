@@ -2,7 +2,8 @@ import express from "express";
 // import {} from "../controllers/productsControllers.js";
 // import products from "../data/products.js";
 const router = express.Router();
-
+import asyncHandler from "../middleware/asyncHandler.js";
+import Product from "../models/productModel.js";
 /**
  * CREATE - POST
  * READ - GET
@@ -12,15 +13,30 @@ const router = express.Router();
 
 // DESC :  GET ALL PRODUCTS
 // ROUTE : '/api/products/
-router.get("/", (req, res) => {
-  console.log("Router called get products request.");
-  res.json(products);
-});
+router.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    console.log("Router called get products request.");
+    // use ____.find({}) to get all the objects
+    // IMPORTANT: use {} to get ALL the objects
+    const products = await Product.find({});
+    res.json(products);
+  })
+);
 
 // DESC : GET A SINGLE PRODUCT
 // ROUTE : '/api/products/:id'
-router.get("/:id", (req, res) =>
-  console.log(`GET request for product ${req.params.id} called.`)
+router.get(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    console.log(`GET request for product ${req.params.id} called.`);
+    //const product = Product.find(p => p._id === req.params.id);
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.json(product);
+    }
+    res.status(404).json({ message: "Product not found" });
+  })
 );
 
 // DESC :  CREATE A PRODUCTS
