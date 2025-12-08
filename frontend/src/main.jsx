@@ -13,6 +13,8 @@ import ProductScreen from "./screens/ProductScreen.jsx";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
 import App from "./App.jsx";
+import { Provider } from "react-redux";
+import store from "./store";
 
 // Creates a route using createRoutesFromElements
 const router = createBrowserRouter(
@@ -29,6 +31,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );
