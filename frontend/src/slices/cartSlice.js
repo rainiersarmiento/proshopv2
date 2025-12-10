@@ -15,7 +15,7 @@ const initialState = localStorage.getItem("cart")
 
 const addDecimals = (num) => {
   // Calculate the correct decimals
-  return Math.round(num * 100).toFixed(2);
+  return Math.round((num * 100) / 100).toFixed(2);
 };
 
 const cartSlice = createSlice({
