@@ -4,7 +4,7 @@
  * cart won't request data from an api so it wont need the
  * 'createApi' function from redux
  */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = localStorage.getItem("cart")
   ? // Check to see if "cart" exists in localStorage
@@ -30,6 +30,7 @@ const cartSlice = createSlice({
       // action = the payload that will alter the state
       // - add/remove from existing cart
       const item = action.payload;
+      console.log(item);
       // action.payload - how to retrieve the change
       const existItem = state.cartItems.find((x) => x._id === item._id);
       // check to see if the item is already in the cart by finding it within the current state's cartItems
@@ -60,7 +61,6 @@ const cartSlice = createSlice({
 
       // Calculate shipping price ($10 on orders < 100 otherwise free)
       state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
-      console.log(state.shippingPrice);
       // Calculate tax price (15% tax)
       state.taxPrice = addDecimals(0.15 * state.itemsPrice);
 
@@ -71,6 +71,7 @@ const cartSlice = createSlice({
         Number(state.taxPrice)
       ).toFixed(2);
       localStorage.setItem("cart", JSON.stringify(state));
+      console.log(current(state));
     },
   },
 });

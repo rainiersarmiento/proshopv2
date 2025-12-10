@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 // This is to get the params from the URL
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Products from "../products";
 import { Link } from "react-router-dom";
 import { useGetProductQuery } from "../slices/productsApiSlice";
@@ -32,7 +32,7 @@ const ProductScreen = () => {
   // The data is being renamed product
   // Redux will return isLoading and error itself!
   const { data: product, isLoading, error } = useGetProductQuery(productId);
-  console.log(product);
+
   // console.log([...Array(product.countInStock).keys()]);
 
   // Initialize product. product does not have prior data so [] is empty
