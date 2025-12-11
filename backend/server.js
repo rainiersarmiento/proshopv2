@@ -6,7 +6,7 @@ import url from "node:url";
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
-
+import userRoutes from "./routes/userRoutes.js";
 connectDB();
 const app = express();
 
@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 
 // Routes
 app.use("/api/products", productRoutes);
-
+app.use("/api/users", userRoutes);
 // Error Handlers
 app.use(notFound);
 app.use(errorHandler);
