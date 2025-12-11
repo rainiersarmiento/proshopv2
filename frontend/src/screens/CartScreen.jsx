@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
 
@@ -18,6 +18,7 @@ import Message from "../components/Message";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const cartItems = cart.cartItems;
 
@@ -26,6 +27,10 @@ const CartScreen = () => {
   };
   const removeFromCartHandler = async (id) => {
     dispatch(removeFromCart(id));
+  };
+  const checkoutHandler = () => {
+    // are the users logged in? then proceed to shipping
+    navigate("/login?redirect=/shipping");
   };
   return (
     <Row>
@@ -98,6 +103,7 @@ const CartScreen = () => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
+                onClick={() => checkoutHandler()}
               >
                 Proceed to Checkout
               </Button>
