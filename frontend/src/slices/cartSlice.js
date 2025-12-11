@@ -46,10 +46,18 @@ const cartSlice = createSlice({
       }
       return updateCart(state);
     },
+    removeFromCart: (state, action) => {
+      const item_id = action.payload;
+      // state.cartItems = state.cartItems.filter is not the same as state.cartItems alone
+      // Remember that you need to reset the value of state using an equals sign
+      // will not automatically mutate the state.
+      state.cartItems = state.cartItems.filter((x) => x._id !== item_id);
+      return updateCart(state);
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 // To use in your app, you still need to export it as an action
 
 export default cartSlice.reducer;

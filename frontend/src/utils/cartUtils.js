@@ -26,6 +26,6 @@ export const updateCart = (state) => {
   ).toFixed(2);
 
   localStorage.setItem("cart", JSON.stringify(state));
-
+  console.log("update cart complete.");
   return state;
 };
