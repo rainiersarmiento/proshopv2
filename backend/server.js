@@ -6,9 +6,14 @@ import url from "node:url";
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
-
+import userRoutes from "./routes/userRoutes.js";
 connectDB();
 const app = express();
+
+// Body parser middleware
+// Allows to get data from req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +25,7 @@ const __dirname = path.dirname(__filename);
 
 // Routes
 app.use("/api/products", productRoutes);
-
+app.use("/api/users", userRoutes);
 // Error Handlers
 app.use(notFound);
 app.use(errorHandler);
