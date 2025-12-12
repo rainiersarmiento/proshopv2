@@ -11,7 +11,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
 });
 
 const getProduct = asyncHandler(async (req, res) => {
-  console.log(`GET request for product ${req.params.id} called.`);
+  // console.log(`GET request for product ${req.params.id} called.`);
   //const product = Product.find(p => p._id === req.params.id);
   const product = await Product.findById(req.params.id);
   if (product) {

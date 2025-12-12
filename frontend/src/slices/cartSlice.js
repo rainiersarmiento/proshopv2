@@ -4,19 +4,14 @@
  * cart won't request data from an api so it wont need the
  * 'createApi' function from redux
  */
-import { createSlice, current } from "@reduxjs/toolkit";
-
+import { createSlice } from "@reduxjs/toolkit";
+import { updateCart } from "../utils/cartUtils";
 const initialState = localStorage.getItem("cart")
   ? // Check to see if "cart" exists in localStorage
     JSON.parse(localStorage.getItem("cart"))
   : // else create an object with key/value cartItems : array
     { cartItems: [] };
 // Items are going to be stored in localStorage
-
-const addDecimals = (num) => {
-  // Calculate the correct decimals
-  return Math.round((num * 100) / 100).toFixed(2);
-};
 
 const cartSlice = createSlice({
   /**
@@ -29,8 +24,8 @@ const cartSlice = createSlice({
       // state = current state of the cart
       // action = the payload that will alter the state
       // - add/remove from existing cart
+
       const item = action.payload;
-      console.log(item);
       // action.payload - how to retrieve the change
       const existItem = state.cartItems.find((x) => x._id === item._id);
       // check to see if the item is already in the cart by finding it within the current state's cartItems
@@ -49,53 +44,20 @@ const cartSlice = createSlice({
         // but you can add properties to the current state bc immer handles it under the hood
         state.cartItems = [...state.cartItems, item];
       }
-
-      // Calculate items price
-      state.itemsPrice = state.cartItems.reduce(
-        (acc, item) => acc + item.price * item.qty,
-        0
-      );
-      // reduce is a high order array method - not redux
-      // start with the accumulator
-      // add all the items and their quantities
-
-      // Calculate shipping price ($10 on orders < 100 otherwise free)
-      state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
-      // Calculate tax price (15% tax)
-      state.taxPrice = addDecimals(0.15 * state.itemsPrice);
-
-      // Calculate total price
-      state.totalPrice = (
-        Number(state.itemsPrice) +
-        Number(state.shippingPrice) +
-        Number(state.taxPrice)
-      ).toFixed(2);
-      localStorage.setItem("cart", JSON.stringify(state));
-      console.log(current(state));
+      return updateCart(state);
+    },
+    removeFromCart: (state, action) => {
+      const item_id = action.payload;
+      // state.cartItems = state.cartItems.filter is not the same as state.cartItems alone
+      // Remember that you need to reset the value of state using an equals sign
+      // will not automatically mutate the state.
+      state.cartItems = state.cartItems.filter((x) => x._id !== item_id);
+      return updateCart(state);
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 // To use in your app, you still need to export it as an action
 
 export default cartSlice.reducer;
-
-// import { createSlice } from "@reduxjs/toolkit";
-
-// import React from "react";
-// const initialState = localStorage.getItem("cart")
-//   ? JSON.parse(localStorage.getItem("cart"))
-//   : { cartItems: [] };
-// const cartSlice = createSlice({
-//   /**PARAMS
-//    * name
-//    * initialState - An initial state
-//    * reducers: {}
-//    */
-//   name: "cart",
-//   initialState,
-//   reducers: {},
-// });
-
-// export default cartSlice.reducer;

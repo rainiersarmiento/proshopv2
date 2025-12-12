@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import ProductScreen from "./screens/ProductScreen.jsx";
+import CartScreen from "./screens/CartScreen.jsx";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
 import App from "./App.jsx";
@@ -22,9 +23,10 @@ const router = createBrowserRouter(
     // App.js becomes your Layout
     <Route path="/" element={<App />}>
       {/* index = true - Only shows the HomeScreen - May show a big if there's an issue. */}
-      <Route index={true} path="/" element={<HomeScreen />} />
+      <Route index={true} element={<HomeScreen />} />
       {/* NOTE: No index={true} because it is not the homepage */}
       <Route path="/product/:id" element={<ProductScreen />} />
+      <Route path="/cart" element={<CartScreen />} />
     </Route>
   )
 );
