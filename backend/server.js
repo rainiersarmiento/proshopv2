@@ -10,6 +10,11 @@ import userRoutes from "./routes/userRoutes.js";
 connectDB();
 const app = express();
 
+// Body parser middleware
+// Allows to get data from req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

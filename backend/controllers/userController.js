@@ -5,7 +5,26 @@ import User from "../models/userModel.js";
 // @route POST /api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res, next) => {
-  res.send("login user");
+  const { email, password } = req.body;
+  console.log(req.body);
+  console.log(email, password);
+  // finds 1 document in the database with the same email
+  const user = await User.findOne({ email });
+  // user.matchPassword - Do not need to import because it is already a part of the schema
+  // this references the object that calls the function (user)
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    // Unauthorized
+    res.status(401);
+    // Can be security issue if told which was incorrect.
+    throw new Error("Invalid email or password");
+  }
 });
 
 // @desc Register user
