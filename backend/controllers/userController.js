@@ -1,6 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
-
+import jwt from "jsonwebtoken";
 // @desc login user & get token
 // @route POST /api/users/login
 // @access Public
@@ -13,6 +13,22 @@ const loginUser = asyncHandler(async (req, res, next) => {
   // user.matchPassword - Do not need to import because it is already a part of the schema
   // this references the object that calls the function (user)
   if (user && (await user.matchPassword(password))) {
+    // Sending the object with the payload
+    // Send in the secret
+    // Send in expiration of the JWT token
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+    // Set JWT as HTTP-Only cookie
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      // if in not in development -> True bc only works with https
+      secure: process.env.NODE_ENV !== "development",
+      // Secures from attacks
+      SameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+
     res.json({
       _id: user._id,
       name: user.name,

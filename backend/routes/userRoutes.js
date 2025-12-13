@@ -13,6 +13,8 @@ import {
   getUserById,
   updateUser,
 } from "../controllers/userController.js";
+
+import { protect, admin } from "../middleware/authMiddleware.js";
 /**
  * CREATE - POST
  * READ - GET
@@ -21,7 +23,15 @@ import {
  */
 
 // Will need middleware to allow ONLY admin access
-router.route("/").post(registerUser).get(getUsers);
+router.route("/").post(registerUser).get(protect, admin, getUsers);
+
+// Why .post and not route? Its only a post request to logout, not a get or post so no need for router
+router.post("/logout", logoutUser);
+router.post("/login", loginUser);
+router
+  .route("/profile")
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
 
 /**
  * route to api/users/id and can be chained like an if statement
@@ -29,11 +39,10 @@ router.route("/").post(registerUser).get(getUsers);
  * if get, call getUserById
  * if put request then get updateUser
  */
-router.route("/:id").delete(deleteUser).get(getUserById).put(updateUser);
-
-// Why .post and not route? Its only a post request to logout, not a get or post so no need for router
-router.post("/logout", logoutUser);
-router.post("/login", loginUser);
-router.route("/profile").get(getUserProfile).put(updateUserProfile);
+router
+  .route("/:id")
+  .delete(protect, admin, deleteUser)
+  .get(protect, admin, getUserById)
+  .put(protect, admin, updateUser);
 
 export default router;
