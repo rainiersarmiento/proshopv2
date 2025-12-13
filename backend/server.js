@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 const port = process.env.PORT || 8000;
 import express from "express";
 import path from "node:path";
@@ -15,6 +16,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Allows the use of req.cookies
+app.use(cookieParser()); // req.cookies.jwt
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,6 +30,7 @@ const __dirname = path.dirname(__filename);
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+
 // Error Handlers
 app.use(notFound);
 app.use(errorHandler);
