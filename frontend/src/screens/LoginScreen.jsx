@@ -8,15 +8,21 @@ import Loader from "../components/Loader";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+
 const LoginScreen = () => {
+  // State for form
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //   Tools for Redux
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Login, { isLoading }] = useLoginMutation();
-
+  // Function to check credentials
+  const [login, { isLoading }] = useLoginMutation();
+  // Data stored in localStorage
   const { userInfo } = useSelector((state) => state.auth);
+
+  //   Whats happening here
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
@@ -27,9 +33,17 @@ const LoginScreen = () => {
     }
   }, [userInfo, redirect, navigate]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("submit");
+    // console.log("submit");
+    // Handles the frontend redirects and localStorage
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
   return (
     <FormContainer>
@@ -54,13 +68,22 @@ const LoginScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Button type="submit" variant="primary" className="my-2">
+        <Button
+          type="submit"
+          variant="primary"
+          className="my-2"
+          disabled={isLoading}
+        >
           Sign In
         </Button>
+        {isLoading && <Loader />}
       </Form>
       <Row className="py-3">
         <Col>
-          New Customer? <Link to="/register">Register</Link>
+          New Customer?{" "}
+          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
+            Register
+          </Link>
         </Col>
       </Row>
     </FormContainer>

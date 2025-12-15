@@ -16,7 +16,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       // data contains email & password to login
       // Consider query as request configuration NOT fetch data
       query: (data) => ({
-        url: `${USERS_URL}/auth`,
+        url: `${USERS_URL}/login`,
         method: "POST",
         body: data,
       }),
