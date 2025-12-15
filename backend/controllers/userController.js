@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
+import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
-import jwt from "jsonwebtoken";
+
 // @desc login user & get token
 // @route POST /api/users/login
 // @access Public
@@ -16,18 +17,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
     // Sending the object with the payload
     // Send in the secret
     // Send in expiration of the JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
-    // Set JWT as HTTP-Only cookie
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      // if in not in development -> True bc only works with https
-      secure: process.env.NODE_ENV !== "development",
-      // Secures from attacks
-      SameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
+    generateToken(res, user._id);
 
     res.json({
       _id: user._id,
@@ -49,23 +39,30 @@ const loginUser = asyncHandler(async (req, res, next) => {
 const registerUser = asyncHandler(async (req, res, next) => {
   // res.send("register user");
   const { name, email, password } = req.body;
+  // findOne is a mongoose function
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
   }
+  // create is a mongoose function
   const user = await User.create({
     name,
     email,
     password,
   });
+
+  // Check if user was created
   if (user) {
+    generateToken(res, user._id);
     res.status(201).json({
+      // if user then return the parameters in json
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
     });
+    // If user was not created, throw a new error
   } else {
     res.status(400);
     throw new Error("Invalid user data");
