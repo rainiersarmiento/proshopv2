@@ -40,12 +40,14 @@ const registerUser = asyncHandler(async (req, res, next) => {
   // res.send("register user");
   const { name, email, password } = req.body;
   // findOne is a mongoose function
+  // Does the user already exists
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
   }
   // create is a mongoose function
+  // Create a user gathered from the create method from Mongoose
   const user = await User.create({
     name,
     email,
@@ -54,6 +56,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
   // Check if user was created
   if (user) {
+    // Helper function to create a token so that the user can be logged in
+    // after registration (/utils)
     generateToken(res, user._id);
     res.status(201).json({
       // if user then return the parameters in json
