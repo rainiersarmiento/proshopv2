@@ -34,16 +34,37 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 // pre is middleware to do actions before the document is saved to the
 // database
+// userSchema.pre("save", async function (next) {
+//   // checks if one of the paths are modified, make sure to pass in the parameter to check
+//   if (!this.isModified("password")) {
+//     next();
+//   }
+//   // generate a salt using bcrypt
+//   const salt = await bcrypt.genSalt(10);
+//   // get the password field and set it to the hashed password
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
+
+// Encrypt password using bcrypt
 userSchema.pre("save", async function (next) {
-  // checks if one of the paths are modified, make sure to pass in the parameter to check
   if (!this.isModified("password")) {
     next();
   }
-  // generate a salt using bcrypt
+
   const salt = await bcrypt.genSalt(10);
-  // get the password field and set it to the hashed password
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+// Encrypt password using bcrypt
+// userSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) {
+//     next();
+//   }
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
+
 const User = mongoose.model("User", userSchema);
+
 export default User;
