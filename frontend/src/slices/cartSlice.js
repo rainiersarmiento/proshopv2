@@ -10,7 +10,7 @@ const initialState = localStorage.getItem("cart")
   ? // Check to see if "cart" exists in localStorage
     JSON.parse(localStorage.getItem("cart"))
   : // else create an object with key/value cartItems : array
-    { cartItems: [] };
+    { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" };
 // Items are going to be stored in localStorage
 
 const cartSlice = createSlice({
@@ -54,10 +54,15 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter((x) => x._id !== item_id);
       return updateCart(state);
     },
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+      return updateCart(state);
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress } =
+  cartSlice.actions;
 // To use in your app, you still need to export it as an action
 
 export default cartSlice.reducer;
