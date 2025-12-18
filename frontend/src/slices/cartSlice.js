@@ -76,7 +76,7 @@ export const {
   removeFromCart,
   saveShippingAddress,
   savePaymentMethod,
-  clearCart,
+  clearCartItems,
 } = cartSlice.actions;
 // To use in your app, you still need to export it as an action
 
