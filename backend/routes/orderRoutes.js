@@ -1,0 +1,30 @@
+import express from "express";
+const router = express.Router();
+import User from "../models/userModel.js";
+
+import {
+  addOrderItems,
+  getMyOrders,
+  getOrderById,
+  updateOrderToPaid,
+  updateOrderToDelivered,
+  getOrders,
+} from "../controllers/orderController.js";
+
+import { protect, admin } from "../middleware/authMiddleware.js";
+/**
+ * CREATE - POST
+ * READ - GET
+ * UPDATE - PUT
+ * DELETE - DELETE
+ */
+
+// Will need middleware to allow ONLY admin access
+router.route("/").post(protect, addOrderItems).get(protect, admin, getOrders);
+
+router.route("/mine").get(protect, getMyOrders);
+router.route("/:id").get(protect, admin, getOrderById);
+router.route("/:id/pay").put(protect, admin, updateOrderToPaid);
+router.route("/:id/deliver").put(protect, admin, updateOrderToDelivered);
+
+export default router;

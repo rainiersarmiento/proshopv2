@@ -48,3 +48,12 @@ const getOrders = asyncHandler(async (req, res, next) => {
   console.log("Router called getAllOrders");
   res.send("get all orders");
 });
+
+export {
+  addOrderItems,
+  getMyOrders,
+  getOrderById,
+  updateOrderToPaid,
+  updateOrderToDelivered,
+  getOrders,
+};
