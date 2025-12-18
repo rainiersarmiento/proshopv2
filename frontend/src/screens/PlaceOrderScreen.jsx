@@ -14,7 +14,15 @@ const PlaceOrderScreen = () => {
       navigate("/payment");
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
-  return <div>PlaceOrderScreen</div>;
+  return (
+    <>
+      <CheckoutSteps step1 step2 step3 step4 />
+      <Row>
+        <Col md={8}>Column</Col>
+        <Col md={4}>Column</Col>
+      </Row>
+    </>
+  );
 };
 
 export default PlaceOrderScreen;
