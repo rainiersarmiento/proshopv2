@@ -62,6 +62,12 @@ const cartSlice = createSlice({
       state.paymentMethod = action.payload;
       return updateCart(state);
     },
+    clearCartItems: (state, action) => {
+      state.cartItems = [];
+      // Notice that you're not clearing the other items of cart state
+      // i.e. shippingAddress and etc
+      return updateCart(state);
+    },
   },
 });
 
@@ -70,6 +76,7 @@ export const {
   removeFromCart,
   saveShippingAddress,
   savePaymentMethod,
+  clearCartItems,
 } = cartSlice.actions;
 // To use in your app, you still need to export it as an action
 

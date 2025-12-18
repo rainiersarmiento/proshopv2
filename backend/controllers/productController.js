@@ -10,7 +10,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
   res.json(products);
 });
 
-const getProduct = asyncHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req, res) => {
   // console.log(`GET request for product ${req.params.id} called.`);
   //const product = Product.find(p => p._id === req.params.id);
   const product = await Product.findById(req.params.id);
@@ -23,4 +23,4 @@ const getProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProduct };
+export { getProducts, getProductById };
