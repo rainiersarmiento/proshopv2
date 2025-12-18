@@ -3,7 +3,10 @@ import express from "express";
 // import products from "../data/products.js";
 const router = express.Router();
 import Product from "../models/productModel.js";
-import { getProducts, getProduct } from "../controllers/productController.js";
+import {
+  getProducts,
+  getProductById,
+} from "../controllers/productController.js";
 /**
  * CREATE - POST
  * READ - GET
@@ -19,7 +22,7 @@ router.route("/").get(getProducts);
 // DESC : GET A SINGLE PRODUCT
 // ROUTE : '/api/products/:id'
 // @ACCESS  : Public
-router.route("/:id").get(getProduct);
+router.route("/:id").get(getProductById);
 
 // DESC :  CREATE A PRODUCTS
 // ROUTE : '/api/products/
