@@ -80,13 +80,41 @@ const OrderScreen = () => {
                     <Col>
                       <Link to={`/product/${item.product}`}>{item.name}</Link>
                     </Col>
+                    <Col md={4}>
+                      {item.qty} x ${item.price} = ${item.qty * item.price}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
               ))}
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        <Col md={4}>column2</Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>Order Summary</h2>
+              </ListGroup.Item>
+
+              <ListGroup.Item>
+                <Row>
+                  <Col>Items</Col>
+                  <Col>${order.itemsPrice}</Col>
+                </Row>
+
+                <Row>
+                  <Col>Shipping</Col>
+                  <Col>${order.shippingPrice}</Col>
+                </Row>
+
+                <Row>
+                  <Col>Tax</Col>
+                  <Col>${order.taxPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
       </Row>
     </>
   );
