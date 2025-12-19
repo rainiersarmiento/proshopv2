@@ -24,15 +24,40 @@ const OrderScreen = () => {
   const { id: orderId } = useParams();
   const {
     data: order,
-    refetch,
+    refetch, // this should be used??
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
   // Make sure to change the name of isloading because it is a used variable
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  const {
+    data: paypal,
+    isLoading: loadingPayPal,
+    error: errorPayPal,
+  } = useGetPayPalClientIdQuery();
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(order);
+
+  useEffect(() => {
+    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+      const loadPayPalScript = async () => {
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": paypal.clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+      };
+      if (order && !order.isPaid) {
+        if (!window.paypal) {
+          loadPayPalScript();
+        }
+      }
+    }
+  }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
+
   return isLoading ? (
     <Loader />
   ) : error ? (
