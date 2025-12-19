@@ -49,6 +49,13 @@ const OrderScreen = () => {
                 {order.shippingAddress.postalCode},{" "}
                 {order.shippingAddress.country}
               </p>
+              {order.isDelivered ? (
+                <Message variant="success">
+                  Delivered on {order.deliveredAt}
+                </Message>
+              ) : (
+                <Message variant="danger">Not Delivered</Message>
+              )}
             </ListGroup.Item>
           </ListGroup>
         </Col>
