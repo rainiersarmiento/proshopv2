@@ -111,7 +111,14 @@ const OrderScreen = () => {
                   <Col>Tax</Col>
                   <Col>${order.taxPrice}</Col>
                 </Row>
+
+                <Row>
+                  <Col>Total</Col>
+                  <Col>${order.totalPrice}</Col>
+                </Row>
               </ListGroup.Item>
+              {/* {PAY ORDER PLACEHOLDER} */}
+              {/* {MARK AS DELIVERED PLACEHOLDER} */}
             </ListGroup>
           </Card>
         </Col>
