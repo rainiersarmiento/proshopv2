@@ -28,7 +28,10 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
-
+  // Make sure to change the name of isloading because it is a used variable
+  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  const { userInfo } = useSelector((state) => state.auth);
   console.log(order);
   return isLoading ? (
     <Loader />
