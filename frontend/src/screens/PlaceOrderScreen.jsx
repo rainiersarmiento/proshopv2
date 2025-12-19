@@ -14,17 +14,21 @@ const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  // Notice the array and destructuring combo
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
+      // if address doesnt exist then navigate back to shipping
       navigate("/shipping");
     } else if (!cart.paymentMethod) {
+      // navigate to payment if shipping exists
       navigate("/payment");
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
 
   const placeOrderHandler = async () => {
     try {
+      // createOrder is from useCreateOrderMutation
       const res = await createOrder({
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
@@ -34,9 +38,12 @@ const PlaceOrderScreen = () => {
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
       }).unwrap();
+      // Clear cart items once order is placed
       dispatch(clearCartItems());
+      // navigate to order
       navigate(`/order/${res._id}`);
     } catch (error) {
+      // Error message to notify users
       toast.error(error);
     }
   };
