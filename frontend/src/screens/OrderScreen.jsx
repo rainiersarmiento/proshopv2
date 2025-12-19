@@ -19,10 +19,16 @@ const OrderScreen = () => {
     data: order,
     refetch,
     isLoading,
-    isError,
+    error,
   } = useGetOrderDetailsQuery(orderId);
 
   console.log(order);
-  return <div>hello</div>;
+  return isLoading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant="danger">{error}</Message>
+  ) : (
+    <></>
+  );
 };
 export default OrderScreen;
