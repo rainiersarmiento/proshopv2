@@ -23,6 +23,6 @@ const OrderScreen = () => {
   } = useGetOrderDetailsQuery(orderId);
 
   console.log(order);
-  return <div>OrderScreen</div>;
+  return <div>hello</div>;
 };
 export default OrderScreen;

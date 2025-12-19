@@ -7,8 +7,7 @@ import User from "../models/userModel.js";
 // @access Public
 const loginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
-  console.log(email, password);
+
   // finds 1 document in the database with the same email
   const user = await User.findOne({ email });
   // user.matchPassword - Do not need to import because it is already a part of the schema
