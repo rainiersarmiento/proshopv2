@@ -26,5 +26,10 @@ export default defineConfig([
       //"no-unused-vars": ["warn", { varsIgnorePattern: "^[A-Z_]" }],
       "no-unused-vars": "warn",
     },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
   },
 ]);
