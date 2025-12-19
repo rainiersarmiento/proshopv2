@@ -12,6 +12,7 @@ export default defineConfig([
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      // "plugin:react/recommended",
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -25,11 +26,6 @@ export default defineConfig([
     rules: {
       //"no-unused-vars": ["warn", { varsIgnorePattern: "^[A-Z_]" }],
       "no-unused-vars": "warn",
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
     },
   },
 ]);
