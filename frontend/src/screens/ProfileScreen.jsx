@@ -22,14 +22,28 @@ const ProfileScreen = () => {
   //     }
   //   }, [userInfo]);
 
-  //   const submitHandler = (e) => {
-  //     e.preventDefault();
-  //     console.log("Submit Clicked");
-  //   };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log("Submit Clicked");
+  };
   return (
     <Row>
       {/* Contains user data */}
-      <Col md={3}>Column</Col>
+      <Col md={3}>
+        <h2>
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="name" className="my-2">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          </Form>
+        </h2>
+      </Col>
       {/* Contains the orders */}
       <Col md={9}>Column</Col>
     </Row>
