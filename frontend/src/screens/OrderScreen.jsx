@@ -28,19 +28,26 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
-  // Make sure to change the name of isloading because it is a used variable
+  // Make sure to change the name of isloading because it is an already used variable
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  //
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPayPalClientIdQuery();
+
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    // Load the PayPal Scripts
+    // Check if no errors, loading is complete, and successful clientId
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
       const loadPayPalScript = async () => {
+        // paypalDispatch is from the docs!
+        // What does this paypalDispatch do vs the second one?
+        // First call configures PayPal on how to load
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -48,9 +55,13 @@ const OrderScreen = () => {
             currency: "USD",
           },
         });
+        // Second call loads the paypal script
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
+      // Check order and if not paid then load the paypal script
       if (order && !order.isPaid) {
+        // check if paypal script is already loaded
+        // Prohibits PayPal from loading multiple times
         if (!window.paypal) {
           loadPayPalScript();
         }
