@@ -73,11 +73,42 @@ const OrderScreen = () => {
 
   // Called when PayPal buttons complete
   function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {});
+    // this line triggers paypal
+    return actions.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details });
+        //refetch will update the paid once payment option is complete
+        refetch();
+        toast.success("Payment successful");
+      } catch (err) {
+        toast.error(err?.data?.message || err.message);
+      }
+    });
   }
-  function onApproveTest() {}
-  function onError() {}
-  function createOrder() {}
+  async function onApproveTest() {
+    await payOrder({ orderId, details: { payer: {} } });
+    //refetch will update the paid once payment option is complete
+    refetch();
+    toast.success("Payment successful");
+  }
+  function onError(err) {
+    toast.error(err.message);
+  }
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: order.totalPrice,
+            },
+          },
+        ],
+      })
+      .then((orderId) => {
+        return orderId;
+      });
+  }
 
   return isLoading ? (
     <Loader />
@@ -181,12 +212,12 @@ const OrderScreen = () => {
                     <Loader />
                   ) : (
                     <div>
-                      <Button
+                      {/* <Button
                         onClick={onApproveTest}
                         style={{ marginBottom: "10px" }}
                       >
                         Test Pay Order
-                      </Button>
+                      </Button> */}
 
                       <div>
                         <PayPalButtons
