@@ -31,14 +31,18 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     payOrder: builder.mutation({
       // orderId & detail are received from paypal
       // -> they need to be destructured
+      // RTK Query calls query with only 1 parameter
+      // Destructuring makes it possible to gather more than 1 args if necessary
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",
+        // ...details is received from paypal
         body: { ...details },
       }),
     }),
     getPayPalClientId: builder.query({
       query: () => ({
+        // 'api/paypal/config'
         url: PAYPAL_URL,
       }),
       keepUnusedDataFor: 5,

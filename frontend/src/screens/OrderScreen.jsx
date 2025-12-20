@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 const OrderScreen = () => {
+  // Get the orderId from the path params
   const { id: orderId } = useParams();
   const {
     data: order,
@@ -36,6 +37,7 @@ const OrderScreen = () => {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
+    // 'api/paypal/config'
   } = useGetPayPalClientIdQuery();
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -68,6 +70,14 @@ const OrderScreen = () => {
       }
     }
   }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
+
+  // Called when PayPal buttons complete
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {});
+  }
+  function onApproveTest() {}
+  function onError() {}
+  function createOrder() {}
 
   return isLoading ? (
     <Loader />
@@ -164,6 +174,31 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
               {/* {PAY ORDER PLACEHOLDER} */}
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <div>
+                      <Button
+                        onClick={onApproveTest}
+                        style={{ marginBottom: "10px" }}
+                      >
+                        Test Pay Order
+                      </Button>
+
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                </ListGroup.Item>
+              )}
               {/* {MARK AS DELIVERED PLACEHOLDER} */}
             </ListGroup>
           </Card>
