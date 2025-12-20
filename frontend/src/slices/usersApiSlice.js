@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import { USERS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
@@ -34,11 +35,22 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    profile: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/profile`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
 // notice the 'Query' at the end of the getProducts
 // Add prefixes depending on the function type
 // if mutation - then add mutation
-export const { useLoginMutation, useRegisterMutation, useLogoutMutation } =
-  usersApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useLogoutMutation,
+  useProfileMutation,
+} = usersApiSlice;
