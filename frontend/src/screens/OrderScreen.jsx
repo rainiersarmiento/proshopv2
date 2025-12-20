@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 const OrderScreen = () => {
+  // Get the orderId from the path params
   const { id: orderId } = useParams();
   const {
     data: order,
@@ -28,19 +29,27 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
-  // Make sure to change the name of isloading because it is a used variable
+  // Make sure to change the name of isloading because it is an already used variable
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  //
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
+    // 'api/paypal/config'
   } = useGetPayPalClientIdQuery();
+
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    // Load the PayPal Scripts
+    // Check if no errors, loading is complete, and successful clientId
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
       const loadPayPalScript = async () => {
+        // paypalDispatch is from the docs!
+        // What does this paypalDispatch do vs the second one?
+        // First call configures PayPal on how to load
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -48,15 +57,27 @@ const OrderScreen = () => {
             currency: "USD",
           },
         });
+        // Second call loads the paypal script
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
+      // Check order and if not paid then load the paypal script
       if (order && !order.isPaid) {
+        // check if paypal script is already loaded
+        // Prohibits PayPal from loading multiple times
         if (!window.paypal) {
           loadPayPalScript();
         }
       }
     }
   }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
+
+  // Called when PayPal buttons complete
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {});
+  }
+  function onApproveTest() {}
+  function onError() {}
+  function createOrder() {}
 
   return isLoading ? (
     <Loader />
@@ -153,6 +174,31 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
               {/* {PAY ORDER PLACEHOLDER} */}
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <div>
+                      <Button
+                        onClick={onApproveTest}
+                        style={{ marginBottom: "10px" }}
+                      >
+                        Test Pay Order
+                      </Button>
+
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                </ListGroup.Item>
+              )}
               {/* {MARK AS DELIVERED PLACEHOLDER} */}
             </ListGroup>
           </Card>
