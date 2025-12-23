@@ -62,4 +62,5 @@ export const {
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
   useGetMyOrdersQuery,
+  useGetOrdersQuery,
 } = ordersApiSlice;
