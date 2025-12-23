@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Table, Button, Form, Row, Col } from "react-bootstrap";
 import LinkContainer from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
 import { toast } from "react-toastify";
+import Message from "../components/Message.jsx";
+import Loader from "../components/Loader.jsx";
 import { useProfileMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
+
 const ProfileScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [name, setName] = useState(userInfo?.name || "");
@@ -15,7 +16,7 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
 
-  const [updateProfile, { isLoading: loadingUpdateProfile, error }] =
+  const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
 
   // useEffect(() => {
