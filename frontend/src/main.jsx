@@ -25,6 +25,8 @@ import "./assets/styles/index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import store from "./store";
+import AdminRoute from "./components/AdminRoute.jsx";
+import OrderListScreen from "./screens/admin/OrderListScreen.jsx";
 
 // Creates a route using createRoutesFromElements
 const router = createBrowserRouter(
@@ -44,6 +46,9 @@ const router = createBrowserRouter(
         <Route path="/placeorder" element={<PlaceOrderScreen />} />
         <Route path="/order/:id" element={<OrderScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
+      </Route>
+      <Route path="" element={<AdminRoute />}>
+        <Route path="/admin/orderlist" element={<OrderListScreen />} />
       </Route>
     </Route>
   )
