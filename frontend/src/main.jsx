@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 // import "bootstrap/dist/css/bootstrap.min.css";
-import { ReactDOM } from "react-dom/client";
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -27,6 +27,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import AdminRoute from "./components/AdminRoute.jsx";
 import OrderListScreen from "./screens/admin/OrderListScreen.jsx";
+import ProductListScreen from "./screens/admin/ProductListScreen.jsx";
 
 // Creates a route using createRoutesFromElements
 const router = createBrowserRouter(
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<OrderListScreen />} />
+        <Route path="/admin/productlist" element={<ProductListScreen />} />
       </Route>
     </Route>
   )

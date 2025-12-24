@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import { USERS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
