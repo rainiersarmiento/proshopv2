@@ -4,7 +4,6 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
-
 import {
   useGetProductsQuery,
   useCreateProductMutation,
