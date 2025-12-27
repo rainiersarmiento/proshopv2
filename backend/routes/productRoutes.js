@@ -6,6 +6,7 @@ import Product from "../models/productModel.js";
 import {
   getProducts,
   getProductById,
+  updateProduct,
 } from "../controllers/productController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 import { createProduct } from "../controllers/productController.js";
@@ -24,7 +25,7 @@ router.route("/").get(getProducts).post(protect, admin, createProduct);
 // DESC : GET A SINGLE PRODUCT
 // ROUTE : '/api/products/:id'
 // @ACCESS  : Public
-router.route("/:id").get(getProductById);
+router.route("/:id").get(getProductById).put(protect, admin, updateProduct);
 
 // DESC :  CREATE A PRODUCTS
 // ROUTE : '/api/products/
