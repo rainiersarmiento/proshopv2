@@ -12,15 +12,6 @@ import {
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [countInStock, setCountInStock] = useState(0);
-  const [description, setDescription] = useState("");
-
   const {
     data: product,
     isLoading,
@@ -28,6 +19,47 @@ const ProductEditScreen = () => {
     error,
   } = useGetProductQuery(productId);
 
-  return <div>ProductEditScreen</div>;
+  const [name, setName] = useState(product.name || "");
+  const [price, setPrice] = useState(product.price || 0);
+  const [image, setImage] = useState(product.image || "");
+  const [brand, setBrand] = useState(product.brand || "");
+  const [category, setCategory] = useState(product.category || "");
+  const [countInStock, setCountInStock] = useState(product.countInStock || 0);
+  const [description, setDescription] = useState(product.description || "");
+
+  const [upateProduct, { isLoading: loadingUpdate }] =
+    useUpdateProductMutation();
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <Link to="/admin/productlist" className="btn btn-light my-3">
+        Go Back
+      </Link>
+      <FormContainer>
+        <h1>Edit Product</h1>
+        {loadingUpdate && <Loader />}
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">{error}</Message>
+        ) : (
+          <Form>
+            <Form.Group controlId="name">
+              <Form.label>
+                Name
+                <Form.Control
+                  type="name"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              </Form.label>
+            </Form.Group>
+          </Form>
+        )}
+      </FormContainer>
+    </>
+  );
 };
 export default ProductEditScreen;
