@@ -7,6 +7,8 @@ import {
   getProducts,
   getProductById,
 } from "../controllers/productController.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
+import { createProduct } from "../controllers/productController.js";
 /**
  * CREATE - POST
  * READ - GET
@@ -17,7 +19,7 @@ import {
 // @DESC    :  GET ALL PRODUCTS
 // @ROUTE   : '/api/products/
 // @ACCESS  : Public
-router.route("/").get(getProducts);
+router.route("/").get(getProducts).post(protect, admin, createProduct);
 
 // DESC : GET A SINGLE PRODUCT
 // ROUTE : '/api/products/:id'

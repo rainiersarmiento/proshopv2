@@ -18,10 +18,23 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    createProduct: builder.mutation({
+      query: () => ({
+        url: PRODUCTS_URL,
+        method: "POST",
+      }),
+      // This will stop cache so that we have fresh data
+      // will need to reload page after creating a new product
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
 // notice the 'Query' at the end of the getProducts
 // Add prefixes depending on the function type
 // if mutation - then add mutation
-export const { useGetProductsQuery, useGetProductQuery } = productsApiSlice;
+export const {
+  useGetProductsQuery,
+  useGetProductQuery,
+  useCreateProductMutation,
+} = productsApiSlice;
