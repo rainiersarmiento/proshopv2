@@ -1,7 +1,7 @@
 import cookieParser from "cookie-parser";
 const port = process.env.PORT || 8000;
 import express from "express";
-import path from "node:path";
+import path from "path";
 import products from "./data/products.js";
 import url from "node:url";
 import connectDB from "./config/db.js";
@@ -9,6 +9,7 @@ import productRoutes from "./routes/productRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 connectDB();
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // req.cookies.jwt
 
 const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __dirname = path.dirname(__filename);
 
 // console.log(__filename);
 // console.log(import.meta.filename);
@@ -32,12 +33,17 @@ const __dirname = path.dirname(__filename);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
-
+// upload Route
+app.use("/api/upload", uploadRoutes);
 // REMAINS ON THE BACKEND BECAUSE
 // WHY WOULD YOU WANT IT AVAILABLE IN THE FRONTEND
 app.get("/api/config/paypal", (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
+
+// upload folder in root
+const __dirname = path.resolve(); // set __dirname to current directory
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // Error Handlers
 app.use(notFound);
