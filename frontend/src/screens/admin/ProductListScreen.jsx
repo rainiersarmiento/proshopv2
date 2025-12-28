@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "../../slices/productsApiSlice";
 
 const ProductListScreen = () => {
@@ -15,8 +16,11 @@ const ProductListScreen = () => {
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
 
+  const [deleteProduct, { isLoading: loadingDelete }] =
+    useDeleteProductMutation();
+
   const deleteHandler = (productId) => {
-    console.log("deleteHandler called");
+    // console.log("deleteHandler called");
   };
 
   const createProductHandler = async () => {
