@@ -4,11 +4,15 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Products from "../products";
 import { Link } from "react-router-dom";
-import { useGetProductQuery } from "../slices/productsApiSlice";
+import {
+  useGetProductQuery,
+  useCreateProductMutation,
+} from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { addToCart } from "../slices/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 // import { useEffect, useState } from "react";
 // import axios from "axios";
 import {
@@ -27,12 +31,20 @@ const ProductScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { userInfo } = useSelector((state) => state.auth);
   const [qty, setQty] = useState(1);
-
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
   // The data is being renamed product
   // Redux will return isLoading and error itself!
-  const { data: product, isLoading, error } = useGetProductQuery(productId);
-
+  const {
+    data: product,
+    isLoading,
+    error,
+    refetch,
+  } = useGetProductQuery(productId);
+  const [createReview, { isLoading: loadingProductReview }] =
+    useCreateProductMutation();
   // console.log([...Array(product.countInStock).keys()]);
 
   // Initialize product. product does not have prior data so [] is empty
@@ -155,6 +167,41 @@ const ProductScreen = () => {
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
+            </Col>
+          </Row>
+          <Row className="review">
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              <ListGroup variant="flush">
+                {product.reviews.map((review) => (
+                  <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating value={review.rating} />
+                    <p>{review.createdAt.substring(0, 10)}</p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+                <ListGroup.Item>
+                  <h2>Write a Customer Review</h2>
+                  {loadingProductReview && <Loader />}
+                  {userInfo ? (
+                    <Form>
+                      <Form.Group controlId="rating" className="my-2">
+                        <Form.Control
+                          as="select"
+                          value={rating}
+                          onChange={(e) => setRating(Number(e.target.value))}
+                        >
+                          <option value="">Select...</option>
+                        </Form.Control>
+                      </Form.Group>
+                    </Form>
+                  ) : (
+                    <></>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
             </Col>
           </Row>
         </>
