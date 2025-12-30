@@ -3,14 +3,19 @@ import Product from "../components/Product";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { useParams } from "react-router-dom";
+import Paginate from "../components/Paginate";
 // import { useEffect, useState } from "react";
 //import axios from "axios";
 // useEffect to fetch data
 // useState bc products are a part of the state
 // future will be redux
 const HomeScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { pageNumber } = useParams();
 
+  // Why passing object to getProductQuery
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+  // const { products, page, pages } = data;
   // empty state at first
   // const [products, setProducts] = useState([]);
   // useEffect(() => {
@@ -37,7 +42,7 @@ const HomeScreen = () => {
           <h1>Latest Products</h1>
           {/* Bootstrap Component Row */}
           <Row>
-            {products.map((product) => (
+            {data.products.map((product) => (
               // Loop through the products array and provide a Products component for each
               // Bootstrap Component Col can take in how many cols in a row depending on screen size
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -46,6 +51,7 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
+          <Paginate pages={data.pages} page={data.page} />
         </>
       )}
     </>

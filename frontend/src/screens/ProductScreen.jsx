@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // This is to get the params from the URL
 import { useNavigate, useParams } from "react-router-dom";
 

@@ -38,6 +38,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       {/* index = true - Only shows the HomeScreen - May show a big if there's an issue. */}
       <Route index={true} element={<HomeScreen />} />
+      <Route path="/page/:pageNumber" element={<HomeScreen />} />
       {/* NOTE: No index={true} because it is not the homepage */}
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/cart" element={<CartScreen />} />
@@ -53,6 +54,10 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<OrderListScreen />} />
         <Route path="/admin/productlist" element={<ProductListScreen />} />
+        <Route
+          path="/admin/productlist/:pageNumber"
+          element={<ProductListScreen />}
+        />
         <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
         <Route path="/admin/users" element={<UserListScreen />} />
         <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />

@@ -5,9 +5,22 @@ const getProducts = asyncHandler(async (req, res, next) => {
   console.log("Router called get products request.");
   // use ____.find({}) to get all the objects
   // IMPORTANT: use {} to get ALL the objects
-  const products = await Product.find({});
+  /** Variables
+   *  - pageSize - # of items per page
+   *  - page - current page
+   *  - products - all products in inventory
+   */
+  const pageSize = 4;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await Product.countDocuments();
+  const products = await Product.find({})
+    .limit(pageSize) // Limit 2 items per page
+    .skip(pageSize * (page - 1)); // Skip the products on the specific page size * pagesize - 1
+  // start of index (page) to the max of the page
   //throw new Error("Some error");
-  res.json(products);
+
+  // returning products, current page, and total number of pages
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 const getProductById = asyncHandler(async (req, res) => {
