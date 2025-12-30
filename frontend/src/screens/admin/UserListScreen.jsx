@@ -11,15 +11,15 @@ import {
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
-  const { deleteUser, isLoading: loadingDelete } = useDeleteUserMutation();
+  const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
 
   // id is a string
-  const deleteHandler = async (id) => {
+  const deleteHandler = async (userId) => {
     if (window.confirm("Delete user?")) {
       try {
         // don't forget your awaits
-        await deleteUser(id);
-        toast.success(`User: ${id} successfully deleted.`);
+        await deleteUser(userId);
+        toast.success(`User: ${userId} successfully deleted.`);
         refetch();
       } catch (err) {
         toast.error(err?.data?.message || err.error);
