@@ -14,12 +14,7 @@ import {
 const ProductEditScreen = () => {
   const navigate = useNavigate();
   const { id: productId } = useParams();
-  const {
-    data: product,
-    isLoading,
-    refetch,
-    error,
-  } = useGetProductQuery(productId);
+  const { data: product, isLoading, error } = useGetProductQuery(productId);
 
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
