@@ -1,8 +1,7 @@
-import React from "react";
 import { useState } from "react";
 // This is to get the params from the URL
 import { useNavigate, useParams } from "react-router-dom";
-import Products from "../products";
+
 import { Link } from "react-router-dom";
 import {
   useGetProductQuery,
@@ -22,7 +21,6 @@ import {
   ListGroup,
   Card,
   Button,
-  ListGroupItem,
   Form,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
@@ -68,6 +66,9 @@ const ProductScreen = () => {
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate("/cart");
+  };
+  const submitHandler = () => {
+    console.log("submit");
   };
   return (
     <>
@@ -186,7 +187,7 @@ const ProductScreen = () => {
                   <h2>Write a Customer Review</h2>
                   {loadingProductReview && <Loader />}
                   {userInfo ? (
-                    <Form>
+                    <Form onSubmit={submitHandler}>
                       <Form.Group controlId="rating" className="my-2">
                         <Form.Control
                           as="select"
@@ -201,9 +202,31 @@ const ProductScreen = () => {
                           <option value="5">5 - Excellent</option>
                         </Form.Control>
                       </Form.Group>
+
+                      <Form.Group controlId="comment" className="my-2">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          row="3"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button
+                        disabled={loadingProductReview}
+                        type="submit"
+                        variant="primary"
+                      >
+                        Submit
+                      </Button>
                     </Form>
                   ) : (
-                    <></>
+                    <>
+                      <Message>
+                        {" "}
+                        Please <Link to="/login">sign in</Link>to write a review{" "}
+                      </Message>
+                    </>
                   )}
                 </ListGroup.Item>
               </ListGroup>
