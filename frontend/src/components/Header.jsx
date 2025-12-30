@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import { useDispatch } from "react-redux";
-
+import SearchBox from "./SearchBox";
 const Header = () => {
   // Calls useSelector and pass in the entire state of the global state
   // which state do we want? cart
@@ -48,6 +48,7 @@ const Header = () => {
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <SearchBox />
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
