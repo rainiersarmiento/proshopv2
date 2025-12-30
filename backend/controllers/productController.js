@@ -12,8 +12,17 @@ const getProducts = asyncHandler(async (req, res, next) => {
    */
   const pageSize = 4;
   const page = Number(req.query.pageNumber) || 1;
-  const count = await Product.countDocuments();
-  const products = await Product.find({})
+
+  // keyword exist in the query?? then match the keyword to the name of the product
+  // structured for MongoDB!
+  const keyword = req.query.keyword
+    ? // match the keyword
+      // regex used because iphone 10 but we want to match 'phone'
+      // $options: 'i' - insensitive casing
+      { name: { $regex: req.query.keyword, $options: "i" } }
+    : {};
+  const count = await Product.countDocuments({ ...keyword });
+  const products = await Product.find({ ...keyword })
     .limit(pageSize) // Limit 2 items per page
     .skip(pageSize * (page - 1)); // Skip the products on the specific page size * pagesize - 1
   // start of index (page) to the max of the page
