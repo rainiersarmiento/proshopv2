@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // This is to get the params from the URL
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -43,11 +43,6 @@ const ProductScreen = () => {
   } = useGetProductQuery(productId);
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateProductMutation();
-  // console.log([...Array(product.countInStock).keys()]);
-
-  // Initialize product. product does not have prior data so [] is empty
-  // const [product, setProduct] = useState([]);
-  // params are sent as object so destructure the data and product id is the variable for the urlparam from now on
 
   // useEffect(() => {
   //   const fetchProduct = async () => {
@@ -59,16 +54,26 @@ const ProductScreen = () => {
   //   // productId is now part of the dependency array because if it changes, the data must be changed
   // }, [productId]);
 
-  // IMPORTANT : Destructuring the urlparam and renaming it productId for
-  // Syntax purposes
-  // const product = products.find((p) => p._id === productId);
-
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate("/cart");
   };
-  const submitHandler = () => {
-    console.log("submit");
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await createReview({
+        productId,
+        rating,
+        comment,
+      }).unwrap();
+      refetch();
+      toast.success("Review submitted");
+      setRating(0);
+      setComment("");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
   return (
     <>
