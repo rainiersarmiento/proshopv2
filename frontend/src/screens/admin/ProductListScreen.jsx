@@ -108,9 +108,10 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
+          {/* Make sure your placing components within the right body */}
+          <Paginate pages={data.pages} page={pageNumber} isAdmin={true} />
         </>
       )}
-      <Paginate pages={data.pages} page={data.page} isAdmin={true} />
     </>
   );
 };
