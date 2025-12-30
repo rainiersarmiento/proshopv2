@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   useGetProductQuery,
-  useCreateProductMutation,
+  useCreateReviewMutation,
 } from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -42,7 +42,7 @@ const ProductScreen = () => {
     refetch,
   } = useGetProductQuery(productId);
   const [createReview, { isLoading: loadingProductReview }] =
-    useCreateProductMutation();
+    useCreateReviewMutation();
 
   // useEffect(() => {
   //   const fetchProduct = async () => {

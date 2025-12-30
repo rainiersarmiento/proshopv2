@@ -13,7 +13,7 @@ import {
 import { protect, admin } from "../middleware/authMiddleware.js";
 import { createProduct } from "../controllers/productController.js";
 
-router.route("/").get(getProducts).post(protect, admin, createProduct);
+router.route("").get(getProducts).post(protect, admin, createProduct);
 router.route("/:id/reviews").post(protect, createProductReview);
 
 router
