@@ -72,7 +72,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       // Why are tags not needed for Users in details request
       // providesTags:["Users"],
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Users"],
       keepUnusedDataFor: 5,
     }),
   }),
