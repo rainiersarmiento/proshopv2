@@ -7,10 +7,11 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       // USES RTK QUERY UNDER THE HOOD
-      query: ({ pageNumber }) => ({
+      query: ({ keyword, pageNumber }) => ({
         url: PRODUCTS_URL,
         // Setting params to getProductsQuery
         params: {
+          keyword,
           pageNumber,
         },
       }),

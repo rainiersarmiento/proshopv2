@@ -11,10 +11,13 @@ import Paginate from "../components/Paginate";
 // useState bc products are a part of the state
 // future will be redux
 const HomeScreen = () => {
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
 
   // Why passing object to getProductQuery
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
   // const { products, page, pages } = data;
   // empty state at first
   // const [products, setProducts] = useState([]);

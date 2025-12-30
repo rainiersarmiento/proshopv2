@@ -38,7 +38,12 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       {/* index = true - Only shows the HomeScreen - May show a big if there's an issue. */}
       <Route index={true} element={<HomeScreen />} />
+      <Route path="/search/:keyword" element={<HomeScreen />} />
       <Route path="/page/:pageNumber" element={<HomeScreen />} />
+      <Route
+        path="/search/:keyword/page/:pageNumber"
+        element={<HomeScreen />}
+      />
       {/* NOTE: No index={true} because it is not the homepage */}
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/cart" element={<CartScreen />} />
