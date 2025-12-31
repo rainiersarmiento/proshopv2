@@ -23,6 +23,7 @@ import {
   Button,
   Form,
 } from "react-bootstrap";
+import Meta from "../components/Meta";
 import Rating from "../components/Rating";
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -89,6 +90,7 @@ const ProductScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
               {/* Fluid makes the column dynamic - will shape itself to the screen */}

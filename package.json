@@ -21,7 +21,8 @@
     "server": "node --watch --env-file=.env backend/server.js",
     "client": "npm run dev --prefix frontend",
     "data:import": "node --env-file=.env backend/seeder.js",
-    "data:destroy": "node --env-file=.env backend/seeder.js -d"
+    "data:destroy": "node --env-file=.env backend/seeder.js -d",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

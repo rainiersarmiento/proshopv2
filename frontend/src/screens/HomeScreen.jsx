@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
+
 // import { useEffect, useState } from "react";
 //import axios from "axios";
 // useEffect to fetch data
@@ -49,7 +50,6 @@ const HomeScreen = () => {
         </Message>
       ) : (
         <>
-          {" "}
           <h1>Latest Products</h1>
           {/* Bootstrap Component Row */}
           <Row>

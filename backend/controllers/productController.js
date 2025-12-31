@@ -10,7 +10,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
    *  - page - current page
    *  - products - all products in inventory
    */
-  const pageSize = 4;
+  const pageSize = process.env.PAGINATION_LIMIT;
   const page = Number(req.query.pageNumber) || 1;
 
   // keyword exist in the query?? then match the keyword to the name of the product

@@ -8,6 +8,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
@@ -74,12 +75,14 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* Redux Provider */}
-    <Provider store={store}>
-      {/* PayPal Provider encapsulates React Router */}
-      <PayPalScriptProvider deferLoading={true}>
-        {/* React Router Provider */}
-        <RouterProvider router={router} />
-      </PayPalScriptProvider>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        {/* PayPal Provider encapsulates React Router */}
+        <PayPalScriptProvider deferLoading={true}>
+          {/* React Router Provider */}
+          <RouterProvider router={router} />
+        </PayPalScriptProvider>
+      </Provider>
+    </HelmetProvider>
   </StrictMode>
 );
