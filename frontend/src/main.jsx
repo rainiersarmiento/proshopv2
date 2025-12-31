@@ -8,7 +8,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
+// import { HelmetProvider } from "react-helmet-async";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
@@ -30,7 +30,7 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import OrderListScreen from "./screens/admin/OrderListScreen.jsx";
 import ProductListScreen from "./screens/admin/ProductListScreen.jsx";
 import ProductEditScreen from "./screens/admin/ProductEditScreen.jsx";
-import UserListScreen from "./screens/admin/userListScreen.jsx";
+import UserListScreen from "./screens/admin/UserListScreen.jsx";
 import UserEditScreen from "./screens/admin/UserEditScreen.jsx";
 // Creates a route using createRoutesFromElements
 const router = createBrowserRouter(
@@ -75,14 +75,14 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* Redux Provider */}
-    <HelmetProvider>
-      <Provider store={store}>
-        {/* PayPal Provider encapsulates React Router */}
-        <PayPalScriptProvider deferLoading={true}>
-          {/* React Router Provider */}
-          <RouterProvider router={router} />
-        </PayPalScriptProvider>
-      </Provider>
-    </HelmetProvider>
+    {/* <HelmetProvider> */}
+    <Provider store={store}>
+      {/* PayPal Provider encapsulates React Router */}
+      <PayPalScriptProvider deferLoading={true}>
+        {/* React Router Provider */}
+        <RouterProvider router={router} />
+      </PayPalScriptProvider>
+    </Provider>
+    {/* </HelmetProvider> */}
   </StrictMode>
 );
