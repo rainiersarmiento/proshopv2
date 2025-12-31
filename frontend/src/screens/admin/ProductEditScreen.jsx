@@ -122,7 +122,7 @@ const ProductEditScreen = () => {
                 type="text"
                 placeholder="Enter image"
                 value={image}
-                onChange={(e) => setImage}
+                onChange={() => setImage}
               ></Form.Control>
               <Form.Control
                 type="file"

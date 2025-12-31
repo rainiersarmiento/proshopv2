@@ -42,8 +42,19 @@ app.get("/api/config/paypal", (req, res) =>
 );
 
 // upload folder in root
-const __dirname = path.resolve(); // set __dirname to current directory
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve(); // set __dirname to current directory
+  app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.get("*splat", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
 
 // Error Handlers
 app.use(notFound);
