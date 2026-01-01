@@ -25,32 +25,53 @@ const storage = multer.diskStorage({
   },
 });
 
-function checkFileType(file, cb) {
-  // Allowed ext names
-  const filetypes = /jpg|jpeg|png/;
-  // gets the extname
+// function checkFileType(file, cb) {
+//   // Allowed ext names
+//   const filetypes = /jpg|jpeg|png/;
+//   // gets the extname
+//   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+//   // mimetype ??
+//   const mimetype = filetypes.test(file.mimetype);
+//   // check extname and mimetype to test if they match the regular expression
+//   if (extname && mimetype) {
+//     // return null error and return true
+//     return cb(null, true);
+//   } else {
+//     // return error 'Images only!'
+//     cb("Images only!");
+//   }
+// }
+
+function fileFilter(req, file, cb) {
+  const filetypes = /jpe?g|png|webp/;
+  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
+
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // mimetype ??
-  const mimetype = filetypes.test(file.mimetype);
-  // check extname and mimetype to test if they match the regular expression
+  const mimetype = mimetypes.test(file.mimetype);
+
   if (extname && mimetype) {
-    // return null error and return true
-    return cb(null, true);
+    cb(null, true);
   } else {
-    // return error 'Images only!'
-    cb("Images only!");
+    cb(new Error("Images only!"), false);
   }
 }
 
 const upload = multer({
   storage,
+  fileFilter,
 });
+const uploadSingleImage = upload.single("image");
 
 // There is a way to pass an array but we are only uploading a single image.
-router.post("/", upload.single("image"), (req, res) => {
-  res.send({
-    message: "Image uploaded",
-    image: `/${req.file.path}`,
+router.post("/", (req, res) => {
+  uploadSingleImage(req, res, function (err) {
+    if (err) {
+      res.status(404).send({ message: err.message });
+    }
+    res.status(200).send({
+      message: "Image uploaded successfully",
+      image: `/${req.file.path}`,
+    });
   });
 });
 
