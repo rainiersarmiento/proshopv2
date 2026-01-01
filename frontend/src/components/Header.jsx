@@ -8,6 +8,7 @@ import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import { useDispatch } from "react-redux";
 import SearchBox from "./SearchBox";
+import { resetCart } from "../slices/cartSlice";
 const Header = () => {
   // Calls useSelector and pass in the entire state of the global state
   // which state do we want? cart
@@ -26,6 +27,7 @@ const Header = () => {
       //
       await logoutApiCall().unwrap();
       dispatch(logout());
+      dispatch(resetCart());
       navigate("/");
     } catch (err) {
       console.log(err);

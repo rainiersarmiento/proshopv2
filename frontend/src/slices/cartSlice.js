@@ -68,6 +68,7 @@ const cartSlice = createSlice({
       // i.e. shippingAddress and etc
       return updateCart(state);
     },
+    resetCart: (state) => (state = initialState),
   },
 });
 
@@ -77,6 +78,7 @@ export const {
   saveShippingAddress,
   savePaymentMethod,
   clearCartItems,
+  resetCart,
 } = cartSlice.actions;
 // To use in your app, you still need to export it as an action
 
