@@ -72,7 +72,7 @@ const OrderScreen = () => {
     // this line triggers paypal
     return actions.order.capture().then(async function (details) {
       try {
-        await payOrder({ orderId, details });
+        await payOrder({ orderId, details }).unwrap();
         //refetch will update the paid once payment option is complete
         refetch();
         toast.success("Payment successful");
