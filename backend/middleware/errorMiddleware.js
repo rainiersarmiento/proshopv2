@@ -15,10 +15,10 @@ const errorHandler = (err, req, res, next) => {
 
   // Check for Mongoose bad ObjectId or CastError - CastError is from the HTML
   // CastError example - looking for an object id that doesn't exist
-  if (err.name === "CastError" && err.kind === "ObjectId") {
-    message = "Resource not found";
-    statusCode = 404;
-  }
+  // if (err.name === "CastError" && err.kind === "ObjectId") {
+  //   message = "Resource not found";
+  //   statusCode = 404;
+  // }
   // Checks if the NODE_ENV is in production and will send null
   // If it is in production then it will send err.stack or the stack trace
   res.status(statusCode).json({
